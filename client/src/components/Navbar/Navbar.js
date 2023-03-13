@@ -3,6 +3,43 @@ import Logo from "../../assets/imgaes/logo.svg";
 import { Link, useLocation } from "react-router-dom";
 const Navbar = () => {
   const location = useLocation();
+
+  // custome navbar based on the route
+
+  //navbar in login page
+  const LoginNav = () => <span>English</span>;
+
+  // navbar in register page
+  const RegisterNav = () => (
+    <ul className="Navbar_content_Links">
+      <li>
+        <Link to="/register" state={{ type: "shipper" }}>
+          <button className="btn-primary">I am a shipper</button>
+        </Link>
+      </li>
+      <li>
+        <Link to="/register" state={{ type: "carrier" }}>
+          <button className="btn-outline">I am a carrier</button>
+        </Link>
+      </li>
+    </ul>
+  );
+
+  //default navbar link in home page
+  const DefaultNav = () => (
+    <ul className="Navbar_content_Links">
+      <li>
+        <Link to="/login">
+          <button className="btn-outline">Login</button>
+        </Link>
+      </li>
+      <li>
+        <Link to="/register">
+          <button className="btn-primary">Register</button>
+        </Link>
+      </li>
+    </ul>
+  );
   return (
     <nav className="Navbar">
       <div className="container">
@@ -13,20 +50,11 @@ const Navbar = () => {
             </Link>
           </div>
           {location.pathname === "/login" ? (
-            <span>English</span>
+            <LoginNav />
+          ) : location.pathname === "/register" ? (
+            <RegisterNav />
           ) : (
-            <ul className="Navbar_content_Links">
-              <li>
-                <Link to="/login">
-                  <button className="btn-outline">Login</button>
-                </Link>
-              </li>
-              <li>
-                <Link to="/register">
-                  <button className="btn-primary">Register</button>
-                </Link>
-              </li>
-            </ul>
+            <DefaultNav />
           )}
         </div>
       </div>

@@ -73,12 +73,12 @@ const Login = () => {
             <div className="Login_content_right_content_underForm">
               <span>Don`t have an account?</span>
               <div className="Login_content_right_content_underForm_actions">
-                <Link to={{ pathname: "/register", state: "shipper" }}>
+                <Link to="/register" state={{ type: "shipper" }}>
                   <button className="btn-outline">
                     Create shipper account
                   </button>
                 </Link>
-                <Link to={{ pathname: "/register", state: "carrier" }}>
+                <Link to="/register" state={{ type: "carrier" }}>
                   <button className="btn-outline">
                     Create carrier account
                   </button>

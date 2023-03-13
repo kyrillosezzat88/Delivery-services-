@@ -1,0 +1,78 @@
+@import "../../assets/styles/colors.scss";
+.Register {
+  overflow: hidden;
+  height: 100vh;
+  &_content {
+    display: flex;
+    max-height: calc(100vh - 5rem);
+    height: 100%;
+    &_left {
+      width: 50vw;
+      @media all and (max-width: 960px) {
+        display: none;
+      }
+      img {
+        object-fit: cover;
+        width: 100%;
+        height: 100%;
+      }
+    }
+    &_right {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 50vw;
+      @media all and (max-width: 960px) {
+        width: 100vw;
+        height: calc(100vh - 5rem);
+      }
+      &_content {
+        width: 50%;
+        @media all and (max-width: 960px) {
+          width: 85%;
+        }
+        &_title {
+          text-align: center;
+          font-size: 33px;
+        }
+        &_subtitle {
+          font-weight: 500;
+          margin: 40px 0;
+          font-size: 23px;
+        }
+        &_form {
+          display: flex;
+          flex-direction: column;
+          &_input {
+            margin-bottom: 20px;
+          }
+          &_password {
+            position: relative;
+            span {
+              position: absolute;
+              top: 20%;
+              right: 3%;
+              cursor: pointer;
+              font-size: 12px;
+              color: grey;
+            }
+          }
+        }
+
+        &_underForm {
+          margin-top: 20px;
+          &_actions {
+            margin-top: 20px;
+            text-align: center;
+            font-size: 13px;
+            span {
+              color: $primary;
+              font-weight: bold;
+              font-size: 14px;
+            }
+          }
+        }
+      }
+    }
+  }
+}
