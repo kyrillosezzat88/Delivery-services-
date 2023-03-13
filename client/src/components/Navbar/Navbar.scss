@@ -1,0 +1,15 @@
+.Navbar {
+  padding: 10px 0;
+  &_content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    &_Links {
+      list-style: none;
+      display: flex;
+      li {
+        margin-left: 15px;
+      }
+    }
+  }
+}

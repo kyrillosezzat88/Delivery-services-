@@ -1,0 +1,16 @@
+@import "./colors.scss";
+@import "./input.scss";
+@import "./buttons.scss";
+
+//container
+.container {
+  max-width: 1200px; /* set the maximum width of the container */
+  margin: 0 auto; /* center the container horizontally */
+  padding: 0 20px; /* add padding to the left and right sides of the container */
+
+  /* adjust container properties for smaller screens */
+  @media (max-width: 767px) {
+    max-width: 100%; /* set the maximum width to 100% to fill the screen */
+    padding: 0 10px; /* reduce the padding on smaller screens */
+  }
+}

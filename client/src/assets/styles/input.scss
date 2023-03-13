@@ -1,0 +1,16 @@
+.inpt {
+  padding: 15px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  width: 100%;
+  outline: none;
+  transition: all 0.2s ease-in-out;
+  &:hover {
+    border: 1px solid $primary;
+    transition: all 0.2s ease-in-out;
+  }
+  &:focus {
+    border: 1px solid $primary;
+    transition: all 0.2s ease-in-out;
+  }
+}
