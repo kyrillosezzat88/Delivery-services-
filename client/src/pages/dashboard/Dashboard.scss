@@ -1,0 +1,58 @@
+@import "../../assets//styles/colors.scss";
+.Dashboard {
+  &_content {
+    margin-top: 100px;
+    &_table {
+      width: 100%;
+      text-align: left;
+      font-size: 12px;
+      box-shadow: 0 0 5px 0 #ddd;
+      border-radius: 5px;
+      overflow: hidden;
+      thead {
+        background-color: $grey_light;
+        th {
+          padding: 10px 20px;
+          text-transform: uppercase;
+          color: $grey_dark;
+        }
+      }
+      tbody {
+        td {
+          border-bottom: 1px solid #ddd;
+          padding: 10px 20px;
+        }
+      }
+      &_request-details {
+        span {
+          color: $primary;
+          font-weight: 500;
+          margin-right: 5px;
+        }
+      }
+      &_request-status {
+        span {
+          padding: 5px 20px;
+          border-radius: 20px;
+          font-weight: 500;
+        }
+        &_waiting {
+          span {
+            background-color: $secondary;
+          }
+        }
+        &_intransit {
+          span {
+            background-color: $primary;
+            color: $white;
+          }
+        }
+        &_delivered {
+          span {
+            background-color: $green_light;
+          }
+        }
+      }
+    }
+  }
+}

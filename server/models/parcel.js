@@ -5,7 +5,11 @@ const parcelSchema = mongoose.Schema({
     type: String,
     required: true,
   },
-  address: {
+  pickup_address: {
+    type: String,
+    required: true,
+  },
+  dropoff_address: {
     type: String,
     required: true,
   },

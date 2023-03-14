@@ -1,9 +1,11 @@
 import "./Navbar.scss";
 import Logo from "../../assets/imgaes/logo.svg";
 import { Link, useLocation } from "react-router-dom";
+import CreateShipment from "../Modals/CreateShipment";
+import { useState } from "react";
 const Navbar = () => {
   const location = useLocation();
-
+  const [showCreateShipment, setshowCreateShipment] = useState(false);
   // custome navbar based on the route
 
   //navbar in login page
@@ -40,8 +42,30 @@ const Navbar = () => {
       </li>
     </ul>
   );
+  // dashbaord navbar when user login
+  const DashboardNav = () => (
+    <ul className="Navbar_content_Links">
+      <li>
+        <button
+          className="btn-primary"
+          onClick={() => setshowCreateShipment(true)}
+        >
+          Create New Shipment
+        </button>
+      </li>
+      <li>
+        <Link to="/requests">My Requests</Link>
+      </li>
+      <li>
+        <Link to="/shipments">My shipments</Link>
+      </li>
+    </ul>
+  );
   return (
     <nav className="Navbar">
+      {showCreateShipment && (
+        <CreateShipment Handlestatus={setshowCreateShipment} />
+      )}
       <div className="container">
         <div className="Navbar_content">
           <div className="Navbar_content_Logo">
@@ -53,6 +77,8 @@ const Navbar = () => {
             <LoginNav />
           ) : location.pathname === "/register" ? (
             <RegisterNav />
+          ) : location.pathname === "/dashboard" ? (
+            <DashboardNav />
           ) : (
             <DefaultNav />
           )}

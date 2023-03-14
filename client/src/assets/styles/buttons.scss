@@ -32,3 +32,8 @@
     transition: all 0.3s ease-in-out;
   }
 }
+.btn-danger {
+  @extend .btn;
+  background-color: $red;
+  color: $white;
+}

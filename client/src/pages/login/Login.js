@@ -68,7 +68,9 @@ const Login = () => {
               <span className="Login_content_right_content_form_text">
                 Forget your password?
               </span>
-              <button className="btn-primary">Login</button>
+              <Link to="/dashboard">
+                <button className="btn-primary">Login</button>
+              </Link>
             </form>
             <div className="Login_content_right_content_underForm">
               <span>Don`t have an account?</span>
