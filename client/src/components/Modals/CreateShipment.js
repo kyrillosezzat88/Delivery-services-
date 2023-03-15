@@ -1,6 +1,11 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { createPercel } from "../../Apis/percel";
 import "./Modal.scss";
+import Cookies from "universal-cookie";
+import { AppContext } from "../../contextApi/AppContext";
+const cookies = new Cookies();
 const CreateShipment = ({ Handlestatus }) => {
+  const { dispatch } = useContext(AppContext);
   const [formData, setFormData] = useState({});
 
   // Handle form change
@@ -8,8 +13,19 @@ const CreateShipment = ({ Handlestatus }) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
   //handle submit form
-  const HandleSubmit = (e) => {
+  const HandleSubmit = async (e) => {
     e.preventDefault();
+    console.log(cookies.getAll());
+    try {
+      const {
+        data: { data },
+      } = await createPercel(formData);
+      dispatch({ type: "CREATE_SHIPMENT", payload: data });
+      console.log({ data });
+    } catch (error) {
+      console.log(error.response.data.message);
+      alert(error.response.data.message);
+    }
     console.log({ formData });
     Handlestatus(false);
   };

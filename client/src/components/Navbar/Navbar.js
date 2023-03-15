@@ -1,13 +1,24 @@
 import "./Navbar.scss";
 import Logo from "../../assets/imgaes/logo.svg";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import CreateShipment from "../Modals/CreateShipment";
 import { useState } from "react";
+import Cookies from "universal-cookie";
+const cookies = new Cookies();
+
 const Navbar = () => {
   const location = useLocation();
+  const navigate = useNavigate();
   const [showCreateShipment, setshowCreateShipment] = useState(false);
-  // custome navbar based on the route
 
+  // Logout
+  const Logout = () => {
+    cookies.remove("user");
+    cookies.remove("token");
+    navigate("/login");
+  };
+
+  // custome navbar based on the route
   //navbar in login page
   const LoginNav = () => <span>English</span>;
 
@@ -36,7 +47,7 @@ const Navbar = () => {
         </Link>
       </li>
       <li>
-        <Link to="/register">
+        <Link to="/register" state={{ type: "carrier" }}>
           <button className="btn-primary">Register</button>
         </Link>
       </li>
@@ -45,19 +56,35 @@ const Navbar = () => {
   // dashbaord navbar when user login
   const DashboardNav = () => (
     <ul className="Navbar_content_Links">
+      {cookies.get("user").isShipper && (
+        <>
+          <li>
+            <button
+              className="btn-primary"
+              onClick={() => setshowCreateShipment(true)}
+            >
+              Create New Shipment
+            </button>
+          </li>
+          <li>
+            <Link to="/dashboard">My shipments</Link>
+          </li>
+        </>
+      )}
+      {!cookies.get("user").isShipper && (
+        <>
+          <li>
+            <Link to="/dashboard">Marketplace</Link>
+          </li>
+          <li>
+            <Link to="/shipments">My shipments</Link>
+          </li>
+        </>
+      )}
       <li>
-        <button
-          className="btn-primary"
-          onClick={() => setshowCreateShipment(true)}
-        >
-          Create New Shipment
+        <button className="btn-outline" onClick={Logout}>
+          Logout
         </button>
-      </li>
-      <li>
-        <Link to="/requests">My Requests</Link>
-      </li>
-      <li>
-        <Link to="/shipments">My shipments</Link>
       </li>
     </ul>
   );
@@ -77,7 +104,7 @@ const Navbar = () => {
             <LoginNav />
           ) : location.pathname === "/register" ? (
             <RegisterNav />
-          ) : location.pathname === "/dashboard" ? (
+          ) : ["/dashboard", "/shipments"].includes(location.pathname) ? (
             <DashboardNav />
           ) : (
             <DefaultNav />

@@ -2,8 +2,13 @@ import "./Login.scss";
 import { Navbar } from "../../components";
 import LoginImg from "../../assets/imgaes/login_image.png";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { LoginApi } from "../../Apis/auth";
+import Cookies from "universal-cookie";
+
 const Login = () => {
+  const cookies = new Cookies();
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({});
   const [showPass, setShowPass] = useState(false);
 
@@ -17,13 +22,26 @@ const Login = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
   //handle submit form
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    //simple validation
-    if (!formData.email || !formData.password) {
-      return alert("email and password are requried!");
+    try {
+      //simple validation
+      if (!formData.email || !formData.password) {
+        return alert("email and password are requried!");
+      }
+      const {
+        data: { user },
+      } = await LoginApi(formData);
+      // store token and
+      console.log(user);
+      cookies.set("token", user.token);
+      cookies.set("user", JSON.stringify(user));
+      window.location.reload();
+      navigate("/dashboard");
+    } catch (error) {
+      alert(error.response.data.message);
+      console.log(error.response.data.message);
     }
-    console.log(formData);
   };
   return (
     <section className="Login">
@@ -68,9 +86,7 @@ const Login = () => {
               <span className="Login_content_right_content_form_text">
                 Forget your password?
               </span>
-              <Link to="/dashboard">
-                <button className="btn-primary">Login</button>
-              </Link>
+              <button className="btn-primary">Login</button>
             </form>
             <div className="Login_content_right_content_underForm">
               <span>Don`t have an account?</span>

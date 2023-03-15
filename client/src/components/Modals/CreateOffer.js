@@ -1,15 +1,31 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { updateParcel } from "../../Apis/percel";
+import { AppContext } from "../../contextApi/AppContext";
 import "./Modal.scss";
-const CreateOffer = ({ Handlestatus }) => {
+const CreateOffer = ({ Handlestatus, PercelID }) => {
   const [formData, setFormData] = useState({});
-
+  const { dispatch } = useContext(AppContext);
   // Handle form change
   const HandleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
   //handle submit form
-  const HandleSubmit = (e) => {
+  const HandleSubmit = async (e) => {
     e.preventDefault();
+    try {
+      const {
+        data: { data },
+      } = await updateParcel(PercelID, {
+        ...formData,
+        status: "intransit",
+      });
+
+      console.log(data);
+      dispatch({ type: "UPDATE_PARCEL", payload: data._id });
+    } catch (error) {
+      alert(error.response.data.message);
+      console.log(error.response.data.message);
+    }
     console.log({ formData });
     Handlestatus(false);
   };

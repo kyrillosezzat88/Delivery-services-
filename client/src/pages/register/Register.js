@@ -1,14 +1,22 @@
-import { useLocation, Link } from "react-router-dom";
+import { useLocation, Link, useNavigate } from "react-router-dom";
 import { Navbar } from "../../components";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import carrierImg from "../../assets/imgaes/carrier.png";
 import ShipperImg from "../../assets/imgaes/shipper.png";
 import "./Register.scss";
+import { RegisterApi } from "../../Apis/auth";
 const Register = () => {
   const location = useLocation();
-  const [formData, setFormData] = useState({});
+  const navigate = useNavigate();
+  const [formData, setFormData] = useState({
+    isShipper: location.state.type === "shipper" ? true : false,
+  });
   const [showPass, setShowPass] = useState(false);
-
+  useEffect(() => {
+    setFormData({
+      isShipper: location.state.type === "shipper" ? true : false,
+    });
+  }, [location.state.type]);
   //handle passwrod visibility
   const handlePassword = () => {
     setShowPass((prevState) => !prevState);
@@ -19,11 +27,27 @@ const Register = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
   //handle submit form
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    //simple validation
-    if (!formData.email || !formData.password) {
-      return alert("email and password are requried!");
+    try {
+      //simple validation
+      if (!formData.email || !formData.password) {
+        return alert("email and password are requried!");
+      }
+      // destrcturing messager from api when user register successfully
+      const {
+        data: { message },
+      } = await RegisterApi(formData);
+      alert(message);
+      // reset form data
+      setFormData({
+        isShipper: location.state.type === "shipper" ? true : false,
+      });
+
+      navigate("/login");
+    } catch (error) {
+      alert(error.response.data.message);
+      console.log(error.response.data.message);
     }
   };
   return (
@@ -52,6 +76,7 @@ const Register = () => {
                 placeholder="First name"
                 className="inpt Register_content_right_content_form_input"
                 onChange={handleChange}
+                value={formData.first_name ? formData.first_name : ""}
                 required
               />
               <input
@@ -60,6 +85,7 @@ const Register = () => {
                 placeholder="Last name"
                 className="inpt Register_content_right_content_form_input"
                 onChange={handleChange}
+                value={formData.last_name ? formData.last_name : ""}
                 required
               />
               <input
@@ -68,6 +94,7 @@ const Register = () => {
                 placeholder="Phone number"
                 className="inpt Register_content_right_content_form_input"
                 onChange={handleChange}
+                value={formData.phone ? formData.phone : ""}
                 required
               />
               <input
@@ -76,6 +103,7 @@ const Register = () => {
                 placeholder="Email address"
                 className="inpt Register_content_right_content_form_input"
                 onChange={handleChange}
+                value={formData.email ? formData.email : ""}
                 required
               />
               <div className="Register_content_right_content_form_password">
@@ -85,6 +113,7 @@ const Register = () => {
                   placeholder="Password"
                   className="inpt Register_content_right_content_form_input"
                   onChange={handleChange}
+                  value={formData.password ? formData.password : ""}
                   minLength="6"
                   maxLength="12"
                   required

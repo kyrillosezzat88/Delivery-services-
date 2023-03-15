@@ -3,14 +3,20 @@ const parcel = require("../models/parcel");
 // create new parcel
 const createParcel = async (req, res, next) => {
   try {
-    const { name, address } = req.body;
+    const { name, pickup_address, dropoff_address } = req.body;
     const userId = req.user._id;
     // simpler validation
-    if (!name || !address)
-      return res
-        .status(402)
-        .json({ message: "name and address are requred!", success: false });
-    let newParcel = new parcel({ name, address, createdBy: userId });
+    if (!name || !pickup_address || !dropoff_address)
+      return res.status(402).json({
+        message: "name, pickup address and dropoff address are requred!",
+        success: false,
+      });
+    let newParcel = new parcel({
+      name,
+      pickup_address,
+      dropoff_address,
+      createdBy: userId,
+    });
     newParcel = await newParcel.save();
     if (!newParcel)
       throw new Error(
@@ -31,27 +37,82 @@ const updatePercel = async (req, res, next) => {
     const { status } = req.body;
     const userId = req.user._id;
     // simple validation for status
-    if (!allStatus.includes(status))
+    if (!allStatus.includes(status)) {
       return res
         .status(402)
         .json({ message: "invalied status", success: false });
+    }
 
+    if (status == "intransit") {
+      const updatedPercel = await parcel.findOneAndUpdate(
+        { _id: req.params.id, status: "waiting" },
+        { ...req.body, pickedupBy: userId },
+        { new: true }
+      );
+
+      if (!updatedPercel)
+        return res.status(400).json({
+          message: "unfortunately this shipment taken by another biker!",
+          success: false,
+        });
+      return res.status(200).json({
+        message: "percel updated successfully",
+        success: true,
+        data: updatedPercel,
+      });
+    }
     const updatedPercel = await parcel.findByIdAndUpdate(
       req.params.id,
-      { ...req.body, pickedupBy: userId },
+      { status },
       { new: true }
     );
-    if (!updatedPercel)
+    return res.status(200).json({
+      message: "Updated successfully",
+      data: updatedPercel,
+      success: true,
+    });
+  } catch (error) {
+    return next(error);
+  }
+};
+
+// get percels`s of shipper
+const percelShipper = async (req, res, next) => {
+  try {
+    const allPercels = await parcel
+      .find({ createdBy: req.user._id })
+      .populate("pickedupBy");
+    if (!allPercels)
       return res.status(500).json({
         message:
-          "something went wront, please try again or connect ot customer services ",
-        success: false,
+          "somethign went wrong please try again or contact to customer sevices ",
       });
-    return res.status(200).json({
-      message: "percel updated successfully",
-      success: true,
-      data: updatedPercel,
-    });
+    return res.status(200).json({ data: allPercels, success: true });
+  } catch (error) {
+    return next(error);
+  }
+};
+
+// get all percels
+const allParcels = async (req, res, next) => {
+  try {
+    const getPercels = await parcel.find({ status: "waiting" });
+    return res.status(200).json({ data: getPercels, success: true });
+  } catch (error) {
+    return next(error);
+  }
+};
+
+//get all carrier shipments
+const CarrierShipmetns = async (req, res, next) => {
+  try {
+    const getPercels = await parcel.find({ pickedupBy: req.user._id });
+    if (!getPercels)
+      return res.status(500).json({
+        message:
+          "somethign went wrong please try again or contact to customer sevices ",
+      });
+    return res.status(200).json({ data: getPercels, success: true });
   } catch (error) {
     return next(error);
   }
@@ -60,4 +121,7 @@ const updatePercel = async (req, res, next) => {
 module.exports = {
   createParcel,
   updatePercel,
+  percelShipper,
+  allParcels,
+  CarrierShipmetns,
 };
