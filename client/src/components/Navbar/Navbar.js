@@ -2,11 +2,13 @@ import "./Navbar.scss";
 import Logo from "../../assets/imgaes/logo.svg";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import CreateShipment from "../Modals/CreateShipment";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import Cookies from "universal-cookie";
+import { AppContext } from "../../contextApi/AppContext";
 const cookies = new Cookies();
 
 const Navbar = () => {
+  const { disptach } = useContext(AppContext);
   const location = useLocation();
   const navigate = useNavigate();
   const [showCreateShipment, setshowCreateShipment] = useState(false);
@@ -15,6 +17,7 @@ const Navbar = () => {
   const Logout = () => {
     cookies.remove("user");
     cookies.remove("token");
+    disptach({ type: "LOG_OUT" });
     navigate("/login");
   };
 

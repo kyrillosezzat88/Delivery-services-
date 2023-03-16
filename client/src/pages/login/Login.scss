@@ -28,6 +28,9 @@
       }
       &_content {
         width: 50%;
+        @media all and (max-width: 992px) {
+          width: 80%;
+        }
         &_title {
           text-align: center;
           font-size: 33px;

@@ -33,7 +33,6 @@ const Login = () => {
         data: { user },
       } = await LoginApi(formData);
       // store token and
-      console.log(user);
       cookies.set("token", user.token);
       cookies.set("user", JSON.stringify(user));
       window.location.reload();

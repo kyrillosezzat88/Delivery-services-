@@ -45,6 +45,14 @@ export default (state, action) => {
             : parcel
         ),
       };
+
+    case "LOG_OUT":
+      return {
+        user: null,
+        percels: null,
+        myShipments: null,
+        isLoading: false,
+      };
     default:
       return state;
   }

@@ -15,7 +15,6 @@ const MyShipment = () => {
         const {
           data: { data },
         } = await carrierShipments();
-        console.log(data);
         dispatch({ type: "CARRIER_SHIPMENTS", payload: data });
       } catch (error) {
         console.log(error.response.data.message);
@@ -35,7 +34,6 @@ const MyShipment = () => {
           status: "delivered",
         });
 
-        console.log(data);
         dispatch({ type: "DELIVER_PARCEL", payload: percelId });
       } catch (error) {
         alert(error.response.data.message);

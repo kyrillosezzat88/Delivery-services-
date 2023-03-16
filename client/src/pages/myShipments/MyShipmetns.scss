@@ -2,6 +2,11 @@
 .MyShipment {
   &_content {
     margin-top: 100px;
+    width: 100%;
+    overflow: scroll;
+    @media all and (max-width: 992px) {
+      margin-top: 50px;
+    }
     &_table {
       width: 100%;
       text-align: left;

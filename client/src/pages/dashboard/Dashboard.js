@@ -19,7 +19,6 @@ const Dashboard = () => {
             data: { data },
           } = await percelsShipper();
           dispatch({ type: "GET_PERCELS", payload: data });
-          console.log(data);
         } catch (error) {
           console.log(error.response.data.message);
         }
@@ -31,12 +30,12 @@ const Dashboard = () => {
             data: { data },
           } = await allPercels();
           dispatch({ type: "GET_PERCELS", payload: data });
-          console.log(data);
         } catch (error) {
           console.log(error.response.data.message);
         }
       })();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // shipper table

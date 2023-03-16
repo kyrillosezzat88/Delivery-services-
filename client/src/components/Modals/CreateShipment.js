@@ -15,18 +15,15 @@ const CreateShipment = ({ Handlestatus }) => {
   //handle submit form
   const HandleSubmit = async (e) => {
     e.preventDefault();
-    console.log(cookies.getAll());
     try {
       const {
         data: { data },
       } = await createPercel(formData);
       dispatch({ type: "CREATE_SHIPMENT", payload: data });
-      console.log({ data });
     } catch (error) {
       console.log(error.response.data.message);
       alert(error.response.data.message);
     }
-    console.log({ formData });
     Handlestatus(false);
   };
   return (
