@@ -26,12 +26,18 @@
     &_title {
       font-size: 60px;
       line-height: 60px;
+      @media all and (max-width: 769px) {
+        font-size: 30px;
+      }
     }
     &_desc {
       font-size: 26px;
       line-height: 40px;
       letter-spacing: 2px;
       padding: 25px 0;
+      @media all and (max-width: 769px) {
+        font-size: 20px;
+      }
     }
     &_actions {
       display: flex;
@@ -44,6 +50,15 @@
         line-height: 20px;
         font-size: 17px;
       }
+      @media all and (max-width: 769px) {
+        flex-wrap: wrap;
+        a {
+          margin-bottom: 20px;
+        }
+      }
+    }
+    @media all and (max-width: 769px) {
+      padding: 0 10px;
     }
   }
 }
