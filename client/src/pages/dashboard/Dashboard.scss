@@ -3,9 +3,9 @@
   &_content {
     margin-top: 100px;
     width: 100%;
-    overflow: scroll;
     @media all and (max-width: 992px) {
       margin-top: 50px;
+      overflow: scroll;
     }
     &_table {
       width: 100%;
