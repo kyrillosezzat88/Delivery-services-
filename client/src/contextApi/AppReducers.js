@@ -29,6 +29,7 @@ export default (state, action) => {
           (percel) => percel._id !== action.payload
         ),
       };
+
     case "CARRIER_SHIPMENTS":
       return {
         ...state,

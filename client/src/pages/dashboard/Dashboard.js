@@ -84,7 +84,9 @@ const Dashboard = () => {
                   </div>
                 </td>
                 <td>
-                  {pickedupBy?.first_name} {pickedupBy?.last_name}
+                  {pickedupBy
+                    ? `${pickedupBy?.first_name} ${pickedupBy?.last_name}`
+                    : "_______________"}
                 </td>
                 <td>
                   {pickupTime

@@ -17,8 +17,8 @@ const Navbar = () => {
   const Logout = () => {
     cookies.remove("user");
     cookies.remove("token");
-    disptach({ type: "LOG_OUT" });
     navigate("/login");
+    disptach({ type: "LOG_OUT" });
   };
 
   // custome navbar based on the route
