@@ -1,6 +1,6 @@
 # Delivery Services MERN Stack
 
-##### Delivery Services is a App to Manange Shipments between the shipper and the carrier it`s built in React and Node (MERN Stack)
+##### Delivery Services is a App to connects shippers and carriers on a digital freight platform it`s built in React and Node (MERN Stack)
 
 [![React](https://cdn.iconscout.com/icon/free/png-256/react-2752089-2284906.png)](https://ibb.co/3fW2RyQ)
 
