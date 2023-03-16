@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import "./Hero.scss";
 const Hero = () => {
   return (
@@ -8,15 +9,23 @@ const Hero = () => {
           Saloodo! connects shippers and carriers on a digital freight platform.
         </p>
         <div className="Hero_content_actions">
-          <button className="btn-primary">
+          <Link
+            to="/register"
+            state={{ type: "shipper" }}
+            className="btn-primary"
+          >
             <b>I am a shipper</b> <br />
             Find a carrier now
-          </button>
-          <button className="btn-secondary">
+          </Link>
+          <Link
+            to="/register"
+            state={{ type: "carrier" }}
+            className="btn-secondary"
+          >
             <b>I am a carrier</b>
             <br />
             Find the right freight
-          </button>
+          </Link>
         </div>
       </div>
     </div>
