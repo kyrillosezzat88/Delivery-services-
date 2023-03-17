@@ -1,11 +1,16 @@
 import { useLocation, Link, useNavigate } from "react-router-dom";
 import { Navbar } from "../../components";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import carrierImg from "../../assets/imgaes/carrier.png";
 import ShipperImg from "../../assets/imgaes/shipper.png";
 import "./Register.scss";
 import { RegisterApi } from "../../Apis/auth";
+import { AppContext } from "../../contextApi/AppContext";
 const Register = () => {
+  const {
+    AppData: { isLoading },
+    dispatch,
+  } = useContext(AppContext);
   const location = useLocation();
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
@@ -29,6 +34,8 @@ const Register = () => {
   //handle submit form
   const handleSubmit = async (e) => {
     e.preventDefault();
+    dispatch({ type: "LOADING", payload: true });
+
     try {
       //simple validation
       if (!formData.email || !formData.password) {
@@ -48,6 +55,7 @@ const Register = () => {
     } catch (error) {
       alert(error.response.data.message);
       console.log(error.response.data.message);
+      dispatch({ type: "LOADING", payload: false });
     }
   };
   return (
@@ -123,7 +131,9 @@ const Register = () => {
                 </span>
               </div>
 
-              <button className="btn-primary">Register Now</button>
+              <button className="btn-primary" disabled={isLoading}>
+                Register Now
+              </button>
             </form>
             <div className="Register_content_right_content_underForm">
               <div className="Register_content_right_content_underForm_actions">

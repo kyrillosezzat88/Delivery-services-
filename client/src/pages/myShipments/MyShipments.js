@@ -9,7 +9,7 @@ const cookies = new Cookies();
 const MyShipment = () => {
   const { AppData, dispatch } = useContext(AppContext);
   useEffect(() => {
-    dispatch({ type: "LOADING" });
+    dispatch({ type: "LOADING", payload: true });
     (async () => {
       try {
         const {
@@ -18,6 +18,7 @@ const MyShipment = () => {
         dispatch({ type: "CARRIER_SHIPMENTS", payload: data });
       } catch (error) {
         console.log(error.response.data.message);
+        dispatch({ type: "LOADING", payload: false });
       }
     })();
     // check user if user shipper will call shipepr api if not will call carrier api
@@ -66,7 +67,7 @@ const MyShipment = () => {
               },
               index
             ) => (
-              <tr>
+              <tr key={index}>
                 <td>{index + 1}</td>
                 <td>
                   <div className="MyShipment_content_table_request-details">

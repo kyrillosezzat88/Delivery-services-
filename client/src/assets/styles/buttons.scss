@@ -6,6 +6,11 @@
   border-radius: 4px;
   outline: none;
   border: none;
+
+  &:disabled {
+    background-color: $grey;
+    cursor: not-allowed;
+  }
 }
 
 .btn-primary {

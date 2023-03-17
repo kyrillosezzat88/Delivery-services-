@@ -20,7 +20,6 @@ const CreateOffer = ({ Handlestatus, PercelID }) => {
         status: "intransit",
       });
 
-      console.log(data);
       dispatch({ type: "UPDATE_PARCEL", payload: data._id });
     } catch (error) {
       alert(error.response.data.message);

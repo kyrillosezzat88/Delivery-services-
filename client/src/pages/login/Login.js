@@ -1,12 +1,17 @@
 import "./Login.scss";
 import { Navbar } from "../../components";
 import LoginImg from "../../assets/imgaes/login_image.png";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { LoginApi } from "../../Apis/auth";
 import Cookies from "universal-cookie";
+import { AppContext } from "../../contextApi/AppContext";
 
 const Login = () => {
+  const {
+    AppData: { isLoading },
+    dispatch,
+  } = useContext(AppContext);
   const cookies = new Cookies();
   const navigate = useNavigate();
   const [formData, setFormData] = useState({});
@@ -24,6 +29,8 @@ const Login = () => {
   //handle submit form
   const handleSubmit = async (e) => {
     e.preventDefault();
+    dispatch({ type: "LOADING", payload: true });
+
     try {
       //simple validation
       if (!formData.email || !formData.password) {
@@ -32,14 +39,16 @@ const Login = () => {
       const {
         data: { user },
       } = await LoginApi(formData);
+      dispatch({ type: "LOGIN", payload: user });
       // store token and
       cookies.set("token", user.token);
       cookies.set("user", JSON.stringify(user));
-      window.location.reload();
-      navigate("/dashboard");
+      window.location.href = "/dashboard";
+      // navigate("/dashboard");
     } catch (error) {
       alert(error.response.data.message);
       console.log(error.response.data.message);
+      dispatch({ type: "LOADING", payload: false });
     }
   };
   return (
@@ -85,7 +94,9 @@ const Login = () => {
               <span className="Login_content_right_content_form_text">
                 Forget your password?
               </span>
-              <button className="btn-primary">Login</button>
+              <button className="btn-primary" disabled={isLoading}>
+                Login
+              </button>
             </form>
             <div className="Login_content_right_content_underForm">
               <span>Don`t have an account?</span>

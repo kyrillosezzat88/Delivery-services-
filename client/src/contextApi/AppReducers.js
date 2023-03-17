@@ -6,7 +6,13 @@ export default (state, action) => {
     case "LOADING":
       return {
         ...state,
-        isLoading: true,
+        isLoading: action.payload,
+      };
+    case "LOGIN":
+      return {
+        ...state,
+        isLoading: false,
+        user: action.payload,
       };
     case "GET_PERCELS":
       return {

@@ -9,7 +9,7 @@ const cookies = new Cookies();
 const Dashboard = () => {
   const { AppData, dispatch } = useContext(AppContext);
   useEffect(() => {
-    dispatch({ type: "LOADING" });
+    dispatch({ type: "LOADING", payload: true });
 
     // check user if user shipper will call shipepr api if not will call carrier api
     if (cookies.get("user").isShipper) {
@@ -21,6 +21,7 @@ const Dashboard = () => {
           dispatch({ type: "GET_PERCELS", payload: data });
         } catch (error) {
           console.log(error.response.data.message);
+          dispatch({ type: "LOADING", payload: false });
         }
       })();
     } else {
@@ -32,6 +33,7 @@ const Dashboard = () => {
           dispatch({ type: "GET_PERCELS", payload: data });
         } catch (error) {
           console.log(error.response.data.message);
+          dispatch({ type: "LOADING", payload: false });
         }
       })();
     }
@@ -66,7 +68,7 @@ const Dashboard = () => {
               },
               index
             ) => (
-              <tr>
+              <tr key={index}>
                 <td>{index + 1}</td>
                 <td>
                   <div className="Dashboard_content_table_request-details">
@@ -151,7 +153,7 @@ const Dashboard = () => {
                 },
                 index
               ) => (
-                <tr>
+                <tr key={index}>
                   <td>{index + 1}</td>
                   <td>
                     <div className="Dashboard_content_table_request-details">

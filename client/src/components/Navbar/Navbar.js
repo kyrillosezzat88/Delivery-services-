@@ -8,7 +8,7 @@ import { AppContext } from "../../contextApi/AppContext";
 const cookies = new Cookies();
 
 const Navbar = () => {
-  const { disptach } = useContext(AppContext);
+  const { dispatch } = useContext(AppContext);
   const location = useLocation();
   const navigate = useNavigate();
   const [showCreateShipment, setshowCreateShipment] = useState(false);
@@ -17,8 +17,8 @@ const Navbar = () => {
   const Logout = () => {
     cookies.remove("user");
     cookies.remove("token");
+    dispatch({ type: "LOG_OUT" });
     navigate("/login");
-    disptach({ type: "LOG_OUT" });
   };
 
   // custome navbar based on the route
@@ -91,6 +91,7 @@ const Navbar = () => {
       </li>
     </ul>
   );
+
   return (
     <nav className="Navbar">
       {showCreateShipment && (
